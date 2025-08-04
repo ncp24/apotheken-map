@@ -17,96 +17,116 @@
         zoom: 9,
         center: { lat: 35.25, lng: 33.4 },
         mapTypeId: google.maps.MapTypeId.SATELLITE,
-        styles: [
-          {
-            featureType: "all",
-            elementType: "labels",
-            stylers: [{ visibility: "on" }]
-          }
-        ]
+        styles: [{
+          featureType: "all",
+          elementType: "labels",
+          stylers: [{ visibility: "on" }]
+        }]
       });
 
       const markers = [{
         lat: 35.199233,
         lng: 33.3470252,
-        name: "Pharmacy (0533) 880 82 22",
-        address: "ERTUNGA ECZANES?, Marmara B?lgesi 4, Sokak No: 19, Eski Ayko Ayakkab? Fabrikas? kar??s?Lefko?a, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0533) 880 82 22"
       },
 {
         lat: 35.1972357,
         lng: 33.33269629999999,
-        name: "Pharmacy (0392) 330 32 00",
-        address: "ORTAK?Y ECZANES?, ?ht. Gaz. Hasan Tahsin Cad. (Lemar - Molto yolu, Severse D?ner kar??s?), Ortak?y, Lefko?a, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 330 32 00"
       },
 {
         lat: 35.1997294,
         lng: 33.3677574,
-        name: "Pharmacy (0392) 227 39 24",
-        address: "SERP?N ONAY ECZANES?, ?ht. Mustafa Ruso Cad. No: 84, K???k Kaymakl?, Lefko?a, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 227 39 24"
       },
 {
         lat: 35.3410794,
         lng: 33.2844597,
-        name: "Pharmacy (0392) 822 38 85",
-        address: "A?AR KARAO?LANO?LU ECZANES?, Karao?lano?lu cad. No:3 Storemax yan?, Girne, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 822 38 85"
       },
 {
         lat: 35.3385569,
         lng: 33.3231372,
-        name: "Pharmacy (0392) 815 70 75",
-        address: "A?AR ECZANES?, Mustafa ?a?atay Cad. Yetkili ?? Merkezi No:32, Mahkemeler yan?, Garanti Bankas? kar??s?, Girne, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 815 70 75"
       },
 {
         lat: 35.3476009,
         lng: 33.1983008,
-        name: "Pharmacy (0533) 846 33 30",
-        address: "??FALI ECZANES?, Karao?lano?lu Cad. Yayla Mah. D?k. No: 5, Alsancak, Girne, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0533) 846 33 30"
       },
 {
         lat: 35.1308278,
         lng: 33.9265922,
-        name: "Pharmacy (0392) 365 31 30",
-        address: "ADA ECZANES?, Salamis yolu Sakarya D?k. No:3 Ma?usa, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 365 31 30"
       },
 {
         lat: 35.1378332,
         lng: 33.9192713,
-        name: "Pharmacy (0392) 365 68 20",
-        address: "G?KCEN ?LKTA? ECZANES?, ?smet ?n?n? Bulvar? No: 145, G?der Apt. No: 5, Birle?mi? Milletler kar??s?, Gazima?usa, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 365 68 20"
       },
 {
         lat: 35.198832,
         lng: 32.9940519,
-        name: "Pharmacy (0392) 714 24 57",
-        address: "CAMCIO?LU ECZANES?, ?ht.M?m?r Dilaver Sok No:24 C G?zelyurt, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 714 24 57"
       },
 {
         lat: 35.1380576,
         lng: 32.8302238,
-        name: "Pharmacy (0392) 727 85 00",
-        address: "ALTINCI ECZANES?, ?ht. Nejdet Levent Sok. D?k. No: 4A, Denizli, Lefke, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 727 85 00"
       },
 {
         lat: 35.2839978,
         lng: 33.8925113,
-        name: "Pharmacy (0392) 371 35 02",
-        address: "SEV?LAY PIRLANTA ECZANES?, ?ht. Davut Sad?k Sok., ?skele, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0392) 371 35 02"
       },
 {
         lat: 35.5336362,
         lng: 34.1879321,
-        name: "Pharmacy (0533) 855 72 12",
-        address: "BES?M SEV?ND?K ECZANES?, 8 A?ustos Cad. D?k.No:3 Yeni Erenk?y, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0533) 855 72 12"
       },
 {
         lat: 35.3671697,
         lng: 34.0240946,
-        name: "Pharmacy (0533) 821 96 06",
-        address: "FATMA KAHYAO?LU ECZANES?, Livadya Apt.N0:3 ?ay?rova ?skele, Northern Cyprus"
+        name: "Unnamed",
+        address: "No address",
+        phone: "(0533) 821 96 06"
       }];
       const infoWindow = new google.maps.InfoWindow();
 
       markers.forEach((data) => {
+        const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address)}`;
+        const html = `
+          <div style="line-height:1.5">
+            ? <strong>${data.name}</strong><br>
+            ? ${data.address}<br>
+            ? ${data.phone}<br>
+            ? <a href="${mapsLink}" target="_blank">Navigate</a>
+          </div>`;
+
         const marker = new google.maps.Marker({
           position: { lat: data.lat, lng: data.lng },
           map: map,
@@ -114,14 +134,7 @@
         });
 
         marker.addListener("click", () => {
-          const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address)}`;
-          infoWindow.setContent(
-            `<div style="line-height:1.5">
-              ? <strong>${data.name}</strong><br>
-              ? ${data.address}<br>
-              ? <a href="${mapsLink}" target="_blank">Navigate</a>
-            </div>`
-          );
+          infoWindow.setContent(html);
           infoWindow.open(map, marker);
         });
       });
