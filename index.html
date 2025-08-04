@@ -16,7 +16,14 @@
       const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 9,
         center: { lat: 35.25, lng: 33.4 },
-        mapTypeId: "satellite"
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        styles: [
+          {
+            featureType: "all",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }]
+          }
+        ]
       });
 
       const markers = [{
@@ -108,7 +115,13 @@
 
         marker.addListener("click", () => {
           const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address)}`;
-          infoWindow.setContent(`<strong>${data.name}</strong><br>${data.address}<br><a href="${mapsLink}" target="_blank">? Navigate</a>`);
+          infoWindow.setContent(
+            `<div style="line-height:1.5">
+              ? <strong>${data.name}</strong><br>
+              ? ${data.address}<br>
+              ? <a href="${mapsLink}" target="_blank">Navigate</a>
+            </div>`
+          );
           infoWindow.open(map, marker);
         });
       });
