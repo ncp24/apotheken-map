@@ -140,6 +140,15 @@
       });
     }
   </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsyEC1YmiQAxo1S31FWb73R-kPLly1ZKc&callback=initMap"></script>
+  <!-- Google Maps API-Key dynamisch laden -->
+<script src="config.js"></script>
+<script src="secret.js"></script>
+<script>
+  const mapsScript = document.createElement('script');
+  mapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.GOOGLE_MAPS_API_KEY}&callback=initMap`;
+  mapsScript.async = true;
+  mapsScript.defer = true;
+  document.head.appendChild(mapsScript);
+</script>
 </body>
 </html>
