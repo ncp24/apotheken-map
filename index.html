@@ -1,103 +1,125 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Duty Pharmacies ? 05.08.2025</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial;
-    }
-    #container {
-      display: flex;
-      height: 100%;
-      width: 100%;
-    }
+    html, body { margin: 0; padding: 0; height: 100%; font-family: Arial; }
+    #container { display: flex; height: 100%; }
     #sidebar {
       width: 320px;
-      background: #f9f9f9;
-      padding: 20px;
+      background: #f8f8f8;
+      border-right: 1px solid #ccc;
       overflow-y: auto;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      padding: 10px;
     }
-    #map {
-      flex: 1;
+    #map { flex: 1; }
+    .entry {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
     }
-    #sidebar p {
-      margin: 6px 0;
-      font-size: 14px;
-    }
-    #info-title {
-      margin-bottom: 15px;
-      color: #d90000;
-    }
-    #info-nav {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 6px 12px;
-      background: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
+    .entry strong { font-size: 15px; }
+    .entry span { display: block; margin-top: 3px; font-size: 14px; }
   </style>
 </head>
 <body>
   <div id="container">
-    <div id="sidebar">
-      <h2 id="info-title">? Select a Pharmacy</h2>
-      <p id="info-date"></p>
-      <p id="info-time"></p>
-      <p id="info-address"></p>
-      <p id="info-phone"></p>
-      <a id="info-nav" href="#" target="_blank">? Navigate</a>
-    </div>
+    <div id="sidebar"></div>
     <div id="map"></div>
   </div>
 
   <script>
+    const markers = [
+      {
+        lat: 35.199233,
+        lng: 33.3470252,
+        name: "\u015eifa Pharmacy",
+        address: "Atat\u00fcrk Cad. 15, Nicosia",
+        phone: "(0533) 880 82 22",
+        date: "05.08.2025",
+        time: "08:00 ? 00:00"
+      },
+      {
+        lat: 35.1972357,
+        lng: 33.3326963,
+        name: "Lefko\u015fa Eczanesi",
+        address: "Dr. Faz\u0131l K\u00fc\u00e7\u00fck Bulvar\u0131 12, Nicosia",
+        phone: "(0392) 330 32 00",
+        date: "05.08.2025",
+        time: "08:00 ? 00:00"
+      },
+      {
+        lat: 35.5336362,
+        lng: 34.1879321,
+        name: "Dipkarpaz Pharmacy",
+        address: "Merkez Sok. 3, Dipkarpaz",
+        phone: "(0533) 855 72 12",
+        date: "05.08.2025",
+        time: "08:00 ? 00:00"
+      }
+    ];
+
     function initMap() {
       const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 9,
         center: { lat: 35.25, lng: 33.4 },
-        mapTypeId: google.maps.MapTypeId.SATELLITE
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        styles: [{
+          featureType: "all",
+          elementType: "labels",
+          stylers: [{ visibility: "on" }]
+        }]
       });
 
-      const markers = [
-        {
-          lat: 35.199233,
-          lng: 33.3470252,
-          name: "?ifa Pharmacy",
-          address: "Atat?rk Cad. 15, Nicosia",
-          phone: "(0533) 880 82 22",
-          date: "05.08.2025",
-          time: "08:00 ? 00:00"
-        }
-      ];
+      const infoWindow = new google.maps.InfoWindow();
+      const sidebar = document.getElementById("sidebar");
+      sidebar.innerHTML = "";
 
-      markers.forEach((data) => {
+      markers.forEach((data, i) => {
+        const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address)}`;
+
         const marker = new google.maps.Marker({
           position: { lat: data.lat, lng: data.lng },
           map: map,
           title: data.name
         });
 
+        const html = `
+          <div style="line-height:1.5">
+            ? <strong>${data.name}</strong><br>
+            ? ${data.date}, ${data.time}<br>
+            ? ${data.address}<br>
+            ?? ${data.phone}<br>
+            ? <a href="${mapsLink}" target="_blank">Navigate</a>
+          </div>`;
+
         marker.addListener("click", () => {
-          document.getElementById("info-title").textContent = `? ${data.name}`;
-          document.getElementById("info-date").textContent = `? Date: ${data.date}`;
-          document.getElementById("info-time").textContent = `? Time: ${data.time}`;
-          document.getElementById("info-address").textContent = `? Address: ${data.address}`;
-          document.getElementById("info-phone").textContent = `? Phone: ${data.phone}`;
-          document.getElementById("info-nav").href =
-            `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address)}`;
+          infoWindow.setContent(html);
+          infoWindow.open(map, marker);
         });
+
+        const entryDiv = document.createElement("div");
+        entryDiv.className = "entry";
+        entryDiv.innerHTML = `
+          <strong>? ${data.name}</strong>
+          <span>? ${data.date}, ${data.time}</span>
+          <span>? ${data.address}</span>
+          <span>?? ${data.phone}</span>
+          <span>? <a href="${mapsLink}" target="_blank">Navigate</a></span>
+        `;
+        entryDiv.addEventListener("click", () => {
+          map.setCenter({ lat: data.lat, lng: data.lng });
+          map.setZoom(14);
+          infoWindow.setContent(html);
+          infoWindow.open(map, marker);
+        });
+
+        sidebar.appendChild(entryDiv);
       });
     }
   </script>
 
+  <!-- Google Maps API dynamisch laden -->
   <script src="config.js"></script>
   <script>
     const mapsScript = document.createElement('script');
