@@ -103,15 +103,14 @@
       const infoWindow = new google.maps.InfoWindow();
 
       markers.forEach((data) => {
-        const mapsLink = \`https:
-        const html = \`
+        const mapsLink = `https:
+        const html = `
           <div style="line-height:1.5">
-            ? <strong>\${data.name}</strong><br>
-            ? \${data.date} - ? \${data.time}<br>
-            ? \${data.address}<br>
-            ?? \${data.phone}<br>
-            ? <a href="\${mapsLink}" target="_blank">Navigate</a>
-          </div>\`;
+            ? <strong>${data.name}</strong><br>
+            ? ${data.address}<br>
+            ? ${data.phone}<br>
+            ? <a href="${mapsLink}" target="_blank">Navigate</a>
+          </div>`;
 
         const marker = new google.maps.Marker({
           position: { lat: data.lat, lng: data.lng },
@@ -130,7 +129,7 @@
   <script src="config.js"></script>
   <script>
     const mapsScript = document.createElement('script');
-    mapsScript.src = \`https:
+    mapsScript.src = `https:
     mapsScript.async = true;
     mapsScript.defer = true;
     document.head.appendChild(mapsScript);
