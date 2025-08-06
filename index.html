@@ -12,31 +12,148 @@
   <div id="map"></div>
 
   <script>
+    const markers = [
+  {
+    "lat": 35.1832393,
+    "lng": 33.3692103,
+    "name": "?A?LAYAN ECZANES?",
+    "address": "?ffet Oruz Sok. D?k. A/B, ?a?layan, Lefko?a",
+    "phone": "(0392) 227 61 81"
+  },
+  {
+    "lat": 35.1914294,
+    "lng": 33.3277113,
+    "name": "ALPDO?AN ECZANES?",
+    "address": "Naz?m Hikmet Cad. No: 124/4, Metehan ?emberi (yeni kulliye kar??s?), Metehan, Kermiya, Lefko?a",
+    "phone": "(0392) 330 10 36"
+  },
+  {
+    "lat": 35.1939925,
+    "lng": 33.3559186,
+    "name": "SAB?HA BULDUK ECZANES?",
+    "address": "?ht. Ecvet Yusuf Cad. Bulduk Residence Apt. D?k. No: 3, Yeni?ehir (Orman Dairesi Yolu), Lefko?a",
+    "phone": "(0392) 228 65 65"
+  },
+  {
+    "lat": 35.3373635,
+    "lng": 33.31059,
+    "name": "T?REN ECZANES?",
+    "address": "Ziya R?zk? Cad. Yusuf Ziya Apt. No:262/B Girne",
+    "phone": "(0392) 815 89 79"
+  },
+  {
+    "lat": 35.3057672,
+    "lng": 33.355969,
+    "name": "ALENBAY ECZANES?",
+    "address": "Kurtulu? Cad. No: 53/1, Bellapais yolu, Ovis Coffees kar??s?, Bomond Bar yan? Girne",
+    "phone": "(0533) 886 12 24"
+  },
+  {
+    "lat": 35.3426162,
+    "lng": 33.2705015,
+    "name": "AYLAND ECZANES?",
+    "address": "Hasan Cihan Plaza, No: 2, Karao?lano?lu. (Girne merkezden Alsancak yoluna do?ru-Starlux sinemas?n? ge?tikten 200 metre sonra)",
+    "phone": "(0542) 888 29 59"
+  },
+  {
+    "lat": 35.1102487,
+    "lng": 33.9206133,
+    "name": "LARNAKA YOLU ECZANES?",
+    "address": "15 A?ustos Bulvar? D?k. 2, No:136/B, 2,5 mil yolu, ?anakkale, Gazima?usa",
+    "phone": "(0533) 860 59 65"
+  },
+  {
+    "lat": 35.1379214,
+    "lng": 33.918776,
+    "name": "S?MER ECZANES?",
+    "address": "?smet ?n?n? Bulvar? 182/A, DA? ?emberi kar??s?, Gazima?usa",
+    "phone": "(0392) 365 49 69"
+  },
+  {
+    "lat": 35.19602810000001,
+    "lng": 32.9933193,
+    "name": "EM?NE ?ENT?RK ECZANES?",
+    "address": "B?y?k Ada Sok No: 22, G?zelyurt",
+    "phone": "(0533) 851 58 21"
+  },
+  {
+    "lat": 35.1129917,
+    "lng": 32.8500216,
+    "name": "DERV?? KUTRET ECZANES?",
+    "address": "Dr.?zzet Salih Suphi Maydan? N0:5 Lefke",
+    "phone": "(0533) 882 94 56"
+  },
+  {
+    "lat": 35.2795226,
+    "lng": 33.8967433,
+    "name": "?ZB?RTAN ECZANES?",
+    "address": "Dt. Temel Zeki Cad. Arken B2 Apt. No: 3, ?skele",
+    "phone": "(0392) 371 22 24"
+  },
+  {
+    "lat": 35.5284412,
+    "lng": 34.1807929,
+    "name": "KARPAZIN ECZANES?",
+    "address": "?ht. Mustafa H. Akdeniz Sokak No: 4, Yenierenk?y",
+    "phone": "(0539) 112 38 02"
+  },
+  {
+    "lat": 35.3801085,
+    "lng": 34.07139799999999,
+    "name": "OLGUN KAHYAO?LU ECZANES?",
+    "address": "Ada Cad. Bafra No: 37 / E Mehmet?ik - Karpaz",
+    "phone": "(0533) 849 99 46"
+  },
+  {
+    "lat": 35.1076371,
+    "lng": 33.6815205,
+    "name": "BU?RA ECZANES?",
+    "address": "Dr. Faz?l K???k Cad. Akdo?an, Gazima?usa",
+    "phone": "(0392) 377 88 25"
+  },
+  {
+    "lat": 35.2818339,
+    "lng": 33.9224619,
+    "name": "AV?CENNA ECZANES?",
+    "address": "I?skele Bo?az anayolu, Bereket Sokak, Petek pastanesi? yan?, I?skele",
+    "phone": "(0542) 855 00 15"
+  },
+  {
+    "lat": 35.4237773,
+    "lng": 34.0704301,
+    "name": "MELEK ?BRAH?M ECZANES?",
+    "address": "?zt?rk Cad. No: 10, Mehmet?ik, ?skele",
+    "phone": "(0392) 375 53 66"
+  },
+  {
+    "lat": 35.5336362,
+    "lng": 34.1879321,
+    "name": "BES?M SEV?ND?K ECZANES?",
+    "address": "8 A?ustos Cad. D?k.No:3 Yeni Erenk?y",
+    "phone": "(0533) 855 72 12"
+  }
+];
+
     function initMap() {
       const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 9,
         center: { lat: 35.25, lng: 33.4 },
         mapTypeId: google.maps.MapTypeId.SATELLITE,
-        styles: [{
-          featureType: "all",
-          elementType: "labels",
-          stylers: [{ visibility: "on" }]
-        }]
+        styles: [{ featureType: "all", elementType: "labels", stylers: [{ visibility: "on" }] }]
       });
-
-      const markers = [{"lat":35.1832393,"lng":33.3692103,"name":"?A?LAYAN ECZANES?","address":"?ffet Oruz Sok. D?k. A/B, ?a?layan, Lefko?a","phone":"(0392) 227 61 81"},{"lat":35.1914294,"lng":33.3277113,"name":"ALPDO?AN ECZANES?","address":"Naz?m Hikmet Cad. No: 124/4, Metehan ?emberi (yeni kulliye kar??s?), Metehan, Kermiya, Lefko?a","phone":"(0392) 330 10 36"},{"lat":35.1939925,"lng":33.3559186,"name":"SAB?HA BULDUK ECZANES?","address":"?ht. Ecvet Yusuf Cad. Bulduk Residence Apt. D?k. No: 3, Yeni?ehir (Orman Dairesi Yolu), Lefko?a","phone":"(0392) 228 65 65"},{"lat":35.3373635,"lng":33.31059,"name":"T?REN ECZANES?","address":"Ziya R?zk? Cad. Yusuf Ziya Apt. No:262/B Girne","phone":"(0392) 815 89 79"},{"lat":35.3057672,"lng":33.355969,"name":"ALENBAY ECZANES?","address":"Kurtulu? Cad. No: 53/1, Bellapais yolu, Ovis Coffees kar??s?, Bomond Bar yan? Girne","phone":"(0533) 886 12 24"},{"lat":35.3426162,"lng":33.2705015,"name":"AYLAND ECZANES?","address":"Hasan Cihan Plaza, No: 2, Karao?lano?lu. (Girne merkezden Alsancak yoluna do?ru-Starlux sinemas?n? ge?tikten 200 metre sonra)","phone":"(0542) 888 29 59"},{"lat":35.1102487,"lng":33.9206133,"name":"LARNAKA YOLU ECZANES?","address":"15 A?ustos Bulvar? D?k. 2, No:136/B, 2,5 mil yolu, ?anakkale, Gazima?usa","phone":"(0533) 860 59 65"},{"lat":35.1379214,"lng":33.918776,"name":"S?MER ECZANES?","address":"?smet ?n?n? Bulvar? 182/A, DA? ?emberi kar??s?, Gazima?usa","phone":"(0392) 365 49 69"},{"lat":35.19602810000001,"lng":32.9933193,"name":"EM?NE ?ENT?RK ECZANES?","address":"B?y?k Ada Sok No: 22, G?zelyurt","phone":"(0533) 851 58 21"},{"lat":35.1129917,"lng":32.8500216,"name":"DERV?? KUTRET ECZANES?","address":"Dr.?zzet Salih Suphi Maydan? N0:5 Lefke","phone":"(0533) 882 94 56"},{"lat":35.2795226,"lng":33.8967433,"name":"?ZB?RTAN ECZANES?","address":"Dt. Temel Zeki Cad. Arken B2 Apt. No: 3, ?skele","phone":"(0392) 371 22 24"},{"lat":35.5284412,"lng":34.1807929,"name":"KARPAZIN ECZANES?","address":"?ht. Mustafa H. Akdeniz Sokak No: 4, Yenierenk?y","phone":"(0539) 112 38 02"},{"lat":35.3801085,"lng":34.07139799999999,"name":"OLGUN KAHYAO?LU ECZANES?","address":"Ada Cad. Bafra No: 37 / E Mehmet?ik - Karpaz","phone":"(0533) 849 99 46"},{"lat":35.1076371,"lng":33.6815205,"name":"BU?RA ECZANES?","address":"Dr. Faz?l K???k Cad. Akdo?an, Gazima?usa","phone":"(0392) 377 88 25"},{"lat":35.2818339,"lng":33.9224619,"name":"AV?CENNA ECZANES?","address":"I?skele Bo?az anayolu, Bereket Sokak, Petek pastanesi? yan?, I?skele","phone":"(0542) 855 00 15"},{"lat":35.4237773,"lng":34.0704301,"name":"MELEK ?BRAH?M ECZANES?","address":"?zt?rk Cad. No: 10, Mehmet?ik, ?skele","phone":"(0392) 375 53 66"},{"lat":35.5336362,"lng":34.1879321,"name":"BES?M SEV?ND?K ECZANES?","address":"8 A?ustos Cad. D?k.No:3 Yeni Erenk?y","phone":"(0533) 855 72 12"}]; // ?? Platzhalter f?r Apps Script
 
       const infoWindow = new google.maps.InfoWindow();
 
       markers.forEach((data) => {
-        const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address)}`;
-        const html = `
+        const mapsLink = \`https:
+        const html = \`
           <div style="line-height:1.5">
-            ? <strong>${data.name}</strong><br>
-            ? ${data.address}<br>
-            ? ${data.phone}<br>
-            ? <a href="${mapsLink}" target="_blank">Navigate</a>
-          </div>`;
+            ? <strong>\${data.name}</strong><br>
+            ? \${data.date} - ? \${data.time}<br>
+            ? \${data.address}<br>
+            ?? \${data.phone}<br>
+            ? <a href="\${mapsLink}" target="_blank">Navigate</a>
+          </div>\`;
 
         const marker = new google.maps.Marker({
           position: { lat: data.lat, lng: data.lng },
@@ -52,11 +169,10 @@
     }
   </script>
 
-  <!-- Google Maps API dynamisch laden -->
   <script src="config.js"></script>
   <script>
     const mapsScript = document.createElement('script');
-    mapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap`;
+    mapsScript.src = \`https:
     mapsScript.async = true;
     mapsScript.defer = true;
     document.head.appendChild(mapsScript);
