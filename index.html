@@ -1,132 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Duty Pharmacies ? 05.08.2025</title>
-  <style>
-    html, body { margin: 0; padding: 0; height: 100%; font-family: Arial; }
-    #container { display: flex; height: 100%; }
-    #sidebar {
-      width: 320px;
-      background: #f8f8f8;
-      border-right: 1px solid #ccc;
-      overflow-y: auto;
-      padding: 10px;
-    }
-    #map { flex: 1; }
-    .entry {
-      border-bottom: 1px solid #ddd;
-      padding: 10px 0;
-    }
-    .entry strong { font-size: 15px; }
-    .entry span { display: block; margin-top: 3px; font-size: 14px; }
-  </style>
-</head>
-<body>
-  <div id="container">
-    <div id="sidebar"></div>
-    <div id="map"></div>
-  </div>
+function generateHTMLundPushToGitHub() {
+  const apiKey = PropertiesService.getScriptProperties().getProperty("GOOGLE_MAPS_API_KEY");
+  const githubToken = PropertiesService.getScriptProperties().getProperty("GITHUB_TOKEN");
+  const repo = "ncp24/apotheken-map";
+  const branch = "main";
 
-  <script>
-    const markers = [
-      {
-        lat: 35.199233,
-        lng: 33.3470252,
-        name: "\u015eifa Pharmacy",
-        address: "Atat\u00fcrk Cad. 15, Nicosia",
-        phone: "(0533) 880 82 22",
-        date: "05.08.2025",
-        time: "08:00 ? 00:00"
-      },
-      {
-        lat: 35.1972357,
-        lng: 33.3326963,
-        name: "Lefko\u015fa Eczanesi",
-        address: "Dr. Faz\u0131l K\u00fc\u00e7\u00fck Bulvar\u0131 12, Nicosia",
-        phone: "(0392) 330 32 00",
-        date: "05.08.2025",
-        time: "08:00 ? 00:00"
-      },
-      {
-        lat: 35.5336362,
-        lng: 34.1879321,
-        name: "Dipkarpaz Pharmacy",
-        address: "Merkez Sok. 3, Dipkarpaz",
-        phone: "(0533) 855 72 12",
-        date: "05.08.2025",
-        time: "08:00 ? 00:00"
-      }
-    ];
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Not_Apotheken");
+  const data = sheet.getDataRange().getValues();
+  const header = data[0];
 
-    function initMap() {
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 9,
-        center: { lat: 35.25, lng: 33.4 },
-        mapTypeId: google.maps.MapTypeId.SATELLITE,
-        styles: [{
-          featureType: "all",
-          elementType: "labels",
-          stylers: [{ visibility: "on" }]
-        }]
+  const dateIndex = header.indexOf("date");
+  const timeIndex = header.indexOf("Time");
+  const nameIndex = header.indexOf("Name");
+  const addressIndex = header.indexOf("Address");
+  const phoneIndex = header.indexOf("Phone number");
+  const latIndex = header.indexOf("Latitude");
+  const lonIndex = header.indexOf("Longitude");
+
+  let markersJs = "";
+
+  for (let i = 1; i < data.length; i++) {
+    const lat = data[i][latIndex];
+    const lon = data[i][lonIndex];
+    if (!lat || !lon) continue;
+
+    const name = data[i][nameIndex] || "Unnamed";
+    const address = data[i][addressIndex] || "No address";
+    const phone = data[i][phoneIndex] || "No phone";
+    const date = data[i][dateIndex] || "No date";
+    const time = data[i][timeIndex] || "No time";
+
+    markersJs += `
+      new google.maps.Marker({
+        position: { lat: ${lat}, lng: ${lon} },
+        map: map,
+        title: "${name}"
+      }).addListener("click", () => {
+        infoWindow.setContent(\`
+          <div>
+            <h3>? ${name}</h3>
+            <p>? Date: ${date}</p>
+            <p>? Time: ${time}</p>
+            <p>? Address: ${address}</p>
+            <p>? Phone: ${phone}</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=${lat},${lon}" target="_blank">
+              <button style="background-color:#007bff;color:white;border:none;padding:6px 10px;border-radius:4px;cursor:pointer;">? Navigate</button>
+            </a>
+          </div>\`);
+        infoWindow.open(map, this);
       });
+    `;
+  }
 
-      const infoWindow = new google.maps.InfoWindow();
-      const sidebar = document.getElementById("sidebar");
-      sidebar.innerHTML = "";
-
-      markers.forEach((data, i) => {
-        const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address)}`;
-
-        const marker = new google.maps.Marker({
-          position: { lat: data.lat, lng: data.lng },
-          map: map,
-          title: data.name
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>Pharmacies Map</title>
+      <style>
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #map { height: 100%; width: 100%; }
+      </style>
+    </head>
+    <body>
+      <div id="map"></div>
+      <script src="https://maps.googleapis.com/maps/api/js?key=${apiKey}"></script>
+      <script>
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 9,
+          center: { lat: 35.2, lng: 33.4 },
         });
+        const infoWindow = new google.maps.InfoWindow();
+        ${markersJs}
+      </script>
+    </body>
+    </html>
+  `;
 
-        const html = `
-          <div style="line-height:1.5">
-            ? <strong>${data.name}</strong><br>
-            ? ${data.date}, ${data.time}<br>
-            ? ${data.address}<br>
-            ?? ${data.phone}<br>
-            ? <a href="${mapsLink}" target="_blank">Navigate</a>
-          </div>`;
+  pushToGitHub("index.html", htmlContent, githubToken, repo, branch);
 
-        marker.addListener("click", () => {
-          infoWindow.setContent(html);
-          infoWindow.open(map, marker);
-        });
-
-        const entryDiv = document.createElement("div");
-        entryDiv.className = "entry";
-        entryDiv.innerHTML = `
-          <strong>? ${data.name}</strong>
-          <span>? ${data.date}, ${data.time}</span>
-          <span>? ${data.address}</span>
-          <span>?? ${data.phone}</span>
-          <span>? <a href="${mapsLink}" target="_blank">Navigate</a></span>
-        `;
-        entryDiv.addEventListener("click", () => {
-          map.setCenter({ lat: data.lat, lng: data.lng });
-          map.setZoom(14);
-          infoWindow.setContent(html);
-          infoWindow.open(map, marker);
-        });
-
-        sidebar.appendChild(entryDiv);
-      });
-    }
-  </script>
-
-  <!-- Google Maps API dynamisch laden -->
-  <script src="config.js"></script>
-  <script>
-    const mapsScript = document.createElement('script');
-    mapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap`;
-    mapsScript.async = true;
-    mapsScript.defer = true;
-    document.head.appendChild(mapsScript);
-  </script>
-</body>
-</html>
+  const configContent = `const CONFIG = {\n  apiKey: "${apiKey}"\n};\n`;
+  pushToGitHub("config.js", configContent, githubToken, repo, branch);
+}
