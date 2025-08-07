@@ -50,10 +50,7 @@
       document.getElementById("info-name").textContent = data.name;
       document.getElementById("info-address").textContent = data.address;
       document.getElementById("info-phone").textContent = data.phone;
-
-      const now = new Date();
-      const time = now.toLocaleTimeString("en-GB");
-      document.getElementById("info-time").textContent = time;
+      document.getElementById("info-time").textContent = new Date().toLocaleTimeString("en-GB");
     }
 
     function initMap() {
