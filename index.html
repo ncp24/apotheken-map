@@ -12,41 +12,24 @@
     #map { height: 100%; width: 100%; }
 
     /* Slide-In Panel links (versteckt bis Klick) */
-    #panel {
-      position: absolute;
-      top: 0; left: 0;
-      height: 100%;
-      width: 360px; max-width: 90vw;
-      background: #fff;
-      transform: translateX(-100%);
-      transition: transform 260ms ease-in-out, box-shadow 260ms ease-in-out;
-      z-index: 1000;
-      box-shadow: none;
-      display: flex; flex-direction: column;
+    #panel{
+      position:absolute;top:0;left:0;height:100%;width:360px;max-width:90vw;background:#fff;
+      transform:translateX(-100%);transition:transform .26s ease-in-out,box-shadow .26s ease-in-out;
+      z-index:1000;box-shadow:none;display:flex;flex-direction:column
     }
-    #panel.open { transform: translateX(0); box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
-
-    .panel-header { padding: 16px 18px; border-bottom: 1px solid #eee; }
-    .panel-header h2 { margin: 0; font-size: 18px; line-height: 1.3; }
-
-    .panel-body { padding: 14px 18px 22px 18px; overflow: auto; }
-    .row { margin: 10px 0; line-height: 1.5; font-size: 15px; }
-    .label { display: inline-block; min-width: 86px; color: #444; font-weight: 600; }
-    .value { color: #111; word-break: break-word; }
-
-    .cta {
-      margin-top: 12px; display: inline-block; text-decoration: none;
-      padding: 10px 14px; border-radius: 10px; background: #111; color: #fff;
-      font-weight: 600; letter-spacing: .2px;
-    }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      #panel { width: 100%; max-width: 100%; }
-      .panel-header { padding: 14px 16px; }
-      .panel-body { padding: 12px 16px 18px 16px; }
-      .row { font-size: 16px; }
-      .label { min-width: 84px; }
+    #panel.open{ transform:translateX(0); box-shadow:0 10px 30px rgba(0,0,0,.18) }
+    .panel-header{ padding:16px 18px; border-bottom:1px solid #eee }
+    .panel-header h2{ margin:0; font-size:18px; line-height:1.3 }
+    .panel-body{ padding:14px 18px 22px 18px; overflow:auto }
+    .row{ margin:10px 0; line-height:1.5; font-size:15px }
+    .label{ display:inline-block; min-width:86px; color:#444; font-weight:600 }
+    .value{ color:#111; word-break:break-word }
+    .cta{ margin-top:12px; display:inline-block; text-decoration:none; padding:10px 14px; border-radius:10px; background:#111; color:#fff; font-weight:600; letter-spacing:.2px }
+    @media (max-width:768px){
+      #panel{ width:100%; max-width:100% }
+      .panel-header{ padding:14px 16px }
+      .panel-body{ padding:12px 16px 18px 16px }
+      .row{ font-size:16px } .label{ min-width:84px }
     }
   </style>
 </head>
@@ -55,9 +38,7 @@
 
   <!-- Slide-In Panel (zunächst versteckt) -->
   <aside id="panel" aria-hidden="true">
-    <div class="panel-header">
-      <h2>📍 Selected Pharmacy</h2>
-    </div>
+    <div class="panel-header"><h2>📍 Selected Pharmacy</h2></div>
     <div class="panel-body">
       <div class="row"><span class="label">Date</span> <span class="value" id="info-date">08.08.2025</span></div>
       <div class="row"><span class="label">Time</span> <span class="value" id="info-time">—</span></div>
@@ -69,54 +50,46 @@
   </aside>
 
   <script>
-    // Wir verwenden die vorhandene "markers"-Struktur aus deinem Script (name, address, phone, lat, lng)
-    // -> Keine InfoWindows, nur Panel
-    function showPanel() {
-      const panel = document.getElementById('panel');
-      panel.classList.add('open');
-      panel.setAttribute('aria-hidden', 'false');
+    // Marker-Daten aus Apps Script einbetten
+    const markers = [{"lat":35.200344,"lng":33.3534627,"name":"SEVAL KAYMAK ECZANESİ","address":"Prof.Dr.Necmettin Erbakan Cad. N0: 41/A Elite Hastanesi önü, Domuzcular Burnu yolu Kızılbaş Lefkoşa","phone":"(0392) 227 96 19"},{"lat":35.2006098,"lng":33.3434889,"name":"GÜNEY ENGİNOL ECZANESİ","address":"Yzb. Tekin Yurdabak Caddesi No: 25, Aroğlu karşısı, Ortaköy, Lefkoşa","phone":"(0392) 227 66 95"},{"lat":35.2096817,"lng":33.3170317,"name":"DAMLA KARDÜZ ECZANESİ","address":"Atatürk Cad. Kolan British karşısı, Gönyeli, Lefkoşa","phone":"(0392) 223 45 65"},{"lat":35.3437758,"lng":33.1942624,"name":"MARYAM ECZANESİ","address":"Ankara Cad. No: 1, Lotus Park Sitesi A Blok, Alsancak, Girne","phone":"(0533) 842 36 37"},{"lat":35.323434,"lng":33.3439833,"name":"ARDA ÇELİK ECZANESİ","address":"Bellapais Yolu Zafer Cad. Bedel Plaza N0:4-5 Girne","phone":"(0533) 886 60 85"},{"lat":35.3367234,"lng":33.3103745,"name":"MELİS UZUN ECZANESİ","address":"Işıl Sokak, Uzun Apt. No: 4, Kamiloğlu Hastanesi yanı, Girne","phone":"(0533) 862 11 72"},{"lat":35.1348362,"lng":33.9237462,"name":"HANDE BESMEL ECZANESİ","address":"Gülseren Yolu Cahit Sıtkı Tarancı Sokak Şafak Plaza No:10 Karakol Bölgesi Mağusa","phone":"(0392) 365 34 50"},{"lat":35.2359893,"lng":33.75177230000001,"name":"HALİL HAMZALAR ECZANESİ","address":"Halil Hamza Yolu Ece Apt. Dükkan3 Zizzi Pizza &amp; Dünya Oto Galeri arası / Kaliland Bölgesi Gazimağusa","phone":"(0392) 365 55 94"},{"lat":35.1940623,"lng":32.9944615,"name":"GİLANLI ECZANESİ","address":"Ecevit Cad. No: 120B, Güzelyurt","phone":"(0392) 714 47 90"},{"lat":35.1416122,"lng":32.8364074,"name":"İLKSEN ECZANESİ","address":"Belediye Dükkanları N0:18 Gemikonağı Lefke","phone":"(0392) 727 82 40"},{"lat":35.2836381,"lng":33.8931056,"name":"İSKELE ECZANESİ","address":"Şht. İlker Karter Cad. Cevizli, 11 nolu sokak No: 3/A, İskele","phone":"(0539) 117 12 35"},{"lat":35.4237773,"lng":34.0704301,"name":"MELEK İBRAHİM ECZANESİ","address":"Öztürk Cad. No: 10, Mehmetçik, İskele","phone":"(0392) 375 53 66"},{"lat":35.53569,"lng":34.189259,"name":"SAKİNER ECZANESİ","address":"Yeni Erenköy, Karpaz, Gazimağusa","phone":"(0392) 374 43 56"},{"lat":35.2019434,"lng":33.36390069999999,"name":"PERVİN ECZANESİ","address":"Haydar Aliyev Cad. Berber Tarlası Dük. No: 12/C, Hz. Ebubekir Cami Çaprazı, Türk Hava Yolları karşısı, Küçük Kaymaklı, Lefkoşa","phone":"(0392) 225 28 18"},{"lat":35.1938138,"lng":33.3466521,"name":"ÖZNEM KILINÇKINI ECZANESİ","address":"Mehmet Akif Cad.Grand Pasha Hotel karşısı Dereboyu Lefkoşa","phone":"(0392) 227 11 10"},{"lat":35.200863,"lng":33.32458,"name":"DENİZ ÇORBA ECZANESİ","address":"Belediye Bulvarı 91/B, Miraje Restorant çaprazı, KIB-ET yanı, ŞAŞA karşısı Yenikent, Lefkoşa","phone":"(0392) 223 72 72"},{"lat":35.3419562,"lng":33.278432,"name":"KANDİL ECZANESİ","address":"Karaoğlanoğlu Cad. E 48 Chichen Planet karşısı GAÜ Işıkları yanı Karaoğlanoğlu","phone":"(0392) 822 38 42"},{"lat":35.3270585,"lng":33.3854342,"name":"TÖRENSEL ECZANESİ","address":"Beşparmaklar Cad.Mah Ayhan Plaza Dükkan No:3 Çatalköy","phone":"(0392) 824 57 13"},{"lat":35.3329558,"lng":33.3137472,"name":"ZİYA SENCER ECZANESİ","address":"Mete Adanır Cad. No: 2, Magic Tower Apt. Sulu Çember karşısı, Girne","phone":"(0533) 826 51 91"},{"lat":35.1155201,"lng":33.9296161,"name":"ARAS ÖNCÜ ECZANESİ","address":"15 Ağustos Bulvarı No: 46, İlama Market karşısı, Çanakkale, Gazimağusa","phone":"(0392) 366 29 99"},{"lat":35.1287186,"lng":33.9281283,"name":"MEHMETALİ BEYAZ ECZANESİ","address":"Eşref Bitlis Cad., Topcu Bulvarı, Beyzade Apt., No: 3, Garanti Bankası Karşısı Polis Müdürlüğü önü Gazimağusa","phone":"(0392) 365 06 50"}];
+    // optional global, falls du woanders window.markers nutzt:
+    window.markers = markers;
+
+    function showPanel(){
+      const p=document.getElementById('panel');
+      p.classList.add('open'); p.setAttribute('aria-hidden','false');
     }
-    function updatePanel(data) {
-      document.getElementById("info-name").textContent = data.name || "—";
-      document.getElementById("info-address").textContent = data.address || "—";
-      document.getElementById("info-phone").textContent = data.phone || "—";
-      // Time ist in deinem aktuellen markers-Objekt NICHT enthalten → bleibt "—".
-      // Wenn du willst, dass "Time" aus der Spalte angezeigt wird, sag Bescheid – dann füge ich NUR das Feld im markers-JSON hinzu.
-      document.getElementById("info-time").textContent = "—";
-      const mapsLink = `https://www.google.com/maps?q=${data.lat},${data.lng}`;
-      document.getElementById("info-nav").setAttribute("href", mapsLink);
+    function updatePanel(d){
+      document.getElementById('info-name').textContent = d.name || '—';
+      document.getElementById('info-address').textContent = d.address || '—';
+      document.getElementById('info-phone').textContent = d.phone || '—';
+      document.getElementById('info-time').textContent = (d.time || '—');
+      document.getElementById('info-nav').href = `https://www.google.com/maps?q=${d.lat},${d.lng}`;
     }
 
-    function initMap() {
-      const map = new google.maps.Map(document.getElementById("map"), {
+    function initMap(){
+      const map = new google.maps.Map(document.getElementById('map'),{
         zoom: 9,
         center: { lat: 35.25, lng: 33.4 },
-        mapTypeId: google.maps.MapTypeId.SATELLITE // Satellit als Standard
+        mapTypeId: google.maps.MapTypeId.HYBRID   // ← Satellit + Labels
       });
 
-      // Kein zentriertes Popup (InfoWindow) – nur Panel
-      (window.markers || []).forEach((data) => {
-        const marker = new google.maps.Marker({
-          position: { lat: data.lat, lng: data.lng },
-          map,
-          title: data.name
-        });
-        marker.addListener("click", () => {
-          updatePanel(data);
-          showPanel();
-          map.panTo({ lat: data.lat, lng: data.lng });
+      // Kein InfoWindow – Panel only
+      (window.markers || []).forEach((d)=>{
+        const m = new google.maps.Marker({ position:{lat:d.lat,lng:d.lng}, map, title:d.name });
+        m.addListener('click', ()=>{
+          updatePanel(d); showPanel(); map.panTo({lat:d.lat,lng:d.lng});
         });
       });
     }
   </script>
 
-  <script src="config.js?v=1754677195913"></script>
+  <script src="config.js?v=1754677403278"></script>
   <script>
     // Cache-Breaker unverändert
-    const mapsScript = document.createElement('script');
-    mapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754677195913`;
-    mapsScript.async = true; mapsScript.defer = true;
-    document.head.appendChild(mapsScript);
+    const mapsScript=document.createElement('script');
+    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754677403278`;
+    mapsScript.async=true; mapsScript.defer=true; document.head.appendChild(mapsScript);
   </script>
 </body>
 </html>
