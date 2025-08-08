@@ -44,7 +44,7 @@
     }
     function initMap() {
       const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 9, center: { lat: 35.25, lng: 33.4 }, mapTypeId: google.maps.MapTypeId.ROADMAP
+        zoom: 9, center: { lat: 35.25, lng: 33.4 }, mapTypeId: google.maps.MapTypeId.SATELLITE
       });
       const infoWindow = new google.maps.InfoWindow();
       markers.forEach((data, index) => {
@@ -62,10 +62,10 @@
       });
     }
   </script>
-  <script src="config.js?v=1754669119141"></script>
+  <script src="config.js?v=1754671754532"></script>
   <script>
     const mapsScript = document.createElement('script');
-    mapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754669119141`;
+    mapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754671754532`;
     mapsScript.async = true; mapsScript.defer = true; document.head.appendChild(mapsScript);
   </script>
 </body>
