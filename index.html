@@ -13,7 +13,8 @@
     #panel{
       position:absolute;top:0;left:0;height:100%;width:360px;max-width:90vw;background:#fff;
       transform:translateX(-100%);transition:transform .26s ease-in-out,box-shadow .26s ease-in-out;
-      z-index:1000;box-shadow:none;display:flex;flex-direction:column
+      z-index:1000;box-shadow:none;display:flex;flex-direction:column;
+      border: 2px solid red; /* 🔴 Roter Rahmen */
     }
     #panel.open{ transform:translateX(0); box-shadow:0 10px 30px rgba(0,0,0,.18) }
     .panel-header{
@@ -35,7 +36,7 @@
     @media (max-width:768px){
       #panel{ width:100%; max-width:100% }
       .panel-header{ padding:14px 16px }
-      .close-btn{ width:44px; height:40px; font-size:20px } /* größere Touch-Zone */
+      .close-btn{ width:44px; height:40px; font-size:20px }
       .panel-body{ padding:12px 16px 18px 16px }
       .row{ font-size:16px } .label{ min-width:84px }
     }
@@ -47,7 +48,7 @@
   <!-- Slide-In Panel -->
   <aside id="panel" aria-hidden="true">
     <div class="panel-header">
-      <h2>🧪 Pharmacies on duty</h2>
+      <h2>❌ Pharmacies on duty ❌</h2>
       <button id="panel-close" class="close-btn" aria-label="Close panel">✕</button>
     </div>
     <div class="panel-body">
@@ -55,17 +56,15 @@
       <div class="row">🕒 <span class="label">Time</span> <span class="value" id="info-time">—</span></div>
       <div class="row">🏥 <span class="label">Name</span> <span class="value" id="info-name">—</span></div>
       <div class="row">📍 <span class="label">Address</span> <span class="value" id="info-address">—</span></div>
-      <div class="row">☎️ <span class="label">Phone</span> <span class="value" id="info-phone">—</span></div>
+      <div class="row">☎️ <span class="label">Phone</span> <span class="value"><a id="info-phone" href="#" style="color:inherit;text-decoration:none;">—</a></span></div>
       <a id="info-nav" class="cta" href="#" target="_blank" rel="noopener">🧭 Navigate</a>
     </div>
   </aside>
 
   <script>
-    // Marker-Daten aus Apps Script
     const markers = [{"lat":35.200344,"lng":33.3534627,"name":"SEVAL KAYMAK ECZANESİ","address":"Prof.Dr.Necmettin Erbakan Cad. N0: 41/A Elite Hastanesi önü, Domuzcular Burnu yolu Kızılbaş Lefkoşa","phone":"(0392) 227 96 19","time":"08:00 - 00:00"},{"lat":35.2006098,"lng":33.3434889,"name":"GÜNEY ENGİNOL ECZANESİ","address":"Yzb. Tekin Yurdabak Caddesi No: 25, Aroğlu karşısı, Ortaköy, Lefkoşa","phone":"(0392) 227 66 95","time":"08:00 - 00:00"},{"lat":35.2096817,"lng":33.3170317,"name":"DAMLA KARDÜZ ECZANESİ","address":"Atatürk Cad. Kolan British karşısı, Gönyeli, Lefkoşa","phone":"(0392) 223 45 65","time":"08:00 - 00:00"},{"lat":35.3437758,"lng":33.1942624,"name":"MARYAM ECZANESİ","address":"Ankara Cad. No: 1, Lotus Park Sitesi A Blok, Alsancak, Girne","phone":"(0533) 842 36 37","time":"08:00 - 00:00"},{"lat":35.323434,"lng":33.3439833,"name":"ARDA ÇELİK ECZANESİ","address":"Bellapais Yolu Zafer Cad. Bedel Plaza N0:4-5 Girne","phone":"(0533) 886 60 85","time":"08:00 - 00:00"},{"lat":35.3367234,"lng":33.3103745,"name":"MELİS UZUN ECZANESİ","address":"Işıl Sokak, Uzun Apt. No: 4, Kamiloğlu Hastanesi yanı, Girne","phone":"(0533) 862 11 72","time":"08:00 - 00:00"},{"lat":35.1348362,"lng":33.9237462,"name":"HANDE BESMEL ECZANESİ","address":"Gülseren Yolu Cahit Sıtkı Tarancı Sokak Şafak Plaza No:10 Karakol Bölgesi Mağusa","phone":"(0392) 365 34 50","time":"08:00 - 00:00"},{"lat":35.2359893,"lng":33.75177230000001,"name":"HALİL HAMZALAR ECZANESİ","address":"Halil Hamza Yolu Ece Apt. Dükkan3 Zizzi Pizza &amp; Dünya Oto Galeri arası / Kaliland Bölgesi Gazimağusa","phone":"(0392) 365 55 94","time":"08:00 - 00:00"},{"lat":35.1940623,"lng":32.9944615,"name":"GİLANLI ECZANESİ","address":"Ecevit Cad. No: 120B, Güzelyurt","phone":"(0392) 714 47 90","time":"08:00 - 00:00"},{"lat":35.1416122,"lng":32.8364074,"name":"İLKSEN ECZANESİ","address":"Belediye Dükkanları N0:18 Gemikonağı Lefke","phone":"(0392) 727 82 40","time":"08:00 - 22:00"},{"lat":35.2836381,"lng":33.8931056,"name":"İSKELE ECZANESİ","address":"Şht. İlker Karter Cad. Cevizli, 11 nolu sokak No: 3/A, İskele","phone":"(0539) 117 12 35","time":"08:00 - 22:00"},{"lat":35.4237773,"lng":34.0704301,"name":"MELEK İBRAHİM ECZANESİ","address":"Öztürk Cad. No: 10, Mehmetçik, İskele","phone":"(0392) 375 53 66","time":"08:00 - 20:00"}];
     window.markers = markers;
 
-    // Apotheken-Kreuz als Marker-Icon (SVG -> Data URL)
     const pharmacySVG = `<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'>
       <circle cx='32' cy='32' r='30' fill='#ffffff' stroke='#1e7e34' stroke-width='4'/>
       <rect x='28' y='16' width='8' height='32' fill='#1e7e34'/>
@@ -84,12 +83,13 @@
     function updatePanel(d){
       document.getElementById('info-name').textContent = d.name || '—';
       document.getElementById('info-address').textContent = d.address || '—';
-      document.getElementById('info-phone').textContent = d.phone || '—';
+      const phoneElem = document.getElementById('info-phone');
+      phoneElem.textContent = d.phone || '—';
+      phoneElem.href = d.phone ? `tel:${d.phone.replace(/\s+/g,'')}` : '#';
       document.getElementById('info-time').textContent = d.time || '—';
       document.getElementById('info-nav').href = `https://www.google.com/maps?q=${d.lat},${d.lng}`;
     }
 
-    // Close-Button aktivieren (mobilfreundlich)
     document.addEventListener('click', (e)=>{
       if(e.target && e.target.id === 'panel-close'){ hidePanel(); }
     });
@@ -98,7 +98,7 @@
       const map = new google.maps.Map(document.getElementById('map'),{
         zoom: 9,
         center: { lat: 35.25, lng: 33.4 },
-        mapTypeId: google.maps.MapTypeId.HYBRID // Sat + Labels
+        mapTypeId: google.maps.MapTypeId.HYBRID
       });
       (window.markers || []).forEach((d)=>{
         const m = new google.maps.Marker({
@@ -120,10 +120,10 @@
     }
   </script>
 
-  <script src="config.js?v=1754678617239"></script>
+  <script src="config.js?v=1754679090161"></script>
   <script>
     const mapsScript=document.createElement('script');
-    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754678617239`;
+    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754679090161`;
     mapsScript.async=true; mapsScript.defer=true;
     document.head.appendChild(mapsScript);
   </script>
