@@ -96,10 +96,9 @@
 
     function initMap(){
       const map = new google.maps.Map(document.getElementById('map'),{
-        zoom: 8,
+        zoom: 9,
         center: { lat: 35.25, lng: 33.4 },
         mapTypeId: google.maps.MapTypeId.HYBRID
-        
       });
       (window.markers || []).forEach((d)=>{
         const m = new google.maps.Marker({
@@ -121,10 +120,10 @@
     }
   </script>
 
-  <script src="config.js?v=1754726953837"></script>
+  <script src="config.js?v=1754727045032"></script>
   <script>
     const mapsScript=document.createElement('script');
-    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754726953837`;
+    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754727045032`;
     mapsScript.async=true; mapsScript.defer=true;
     document.head.appendChild(mapsScript);
   </script>
