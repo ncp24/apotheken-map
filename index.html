@@ -94,14 +94,34 @@
       if(e.target && e.target.id === 'panel-close'){ hidePanel(); }
     });
 
-    function initMap(){
-      const map = new google.maps.Map(document.getElementById('map'),{
-        zoom: 8,
-        center: { lat: 35.25, lng: 33.4 },
-        mapTypeId: google.maps.MapTypeId.HYBRID,
-            gestureHandling: "none", // kein Scroll-Zoom am Anfang
+    function initMap() {
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 9,
+    center: { lat: 35.25, lng: 33.4 },
+    mapTypeId: google.maps.MapTypeId.HYBRID,
+    gestureHandling: "none", // kein Scroll-Zoom am Anfang
     scrollwheel: false
-      });
+  });
+
+  // Klick-Event für Zoomfreigabe
+  map.addListener("click", () => {
+    map.setOptions({
+      gestureHandling: "greedy", // Scroll-Zoom aktivieren
+      scrollwheel: true
+    });
+  });
+
+  // Optional: wieder deaktivieren, wenn Maus den Bereich verlässt
+  map.addListener("mouseout", () => {
+    map.setOptions({
+      gestureHandling: "none",
+      scrollwheel: false
+    });
+  });
+
+  // hier dein Marker-Code...
+}
+
       (window.markers || []).forEach((d)=>{
         const m = new google.maps.Marker({
           position:{lat:d.lat,lng:d.lng},
@@ -122,10 +142,10 @@
     }
   </script>
 
-  <script src="config.js?v=1754726550268"></script>
+  <script src="config.js?v=1754726765254"></script>
   <script>
     const mapsScript=document.createElement('script');
-    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754726550268`;
+    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754726765254`;
     mapsScript.async=true; mapsScript.defer=true;
     document.head.appendChild(mapsScript);
   </script>
