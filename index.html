@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Duty Pharmacies 📅 11.08.2025</title>
+  <title>Duty Pharmacies 📅 12.08.2025</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
@@ -52,7 +52,7 @@
       <button id="panel-close" class="close-btn" aria-label="Close panel">✕</button>
     </div>
     <div class="panel-body">
-      <div class="row">📅 <span class="label">Date</span> <span class="value" id="info-date">11.08.2025</span></div>
+      <div class="row">📅 <span class="label">Date</span> <span class="value" id="info-date">12.08.2025</span></div>
       <div class="row">🕒 <span class="label">Time</span> <span class="value" id="info-time">—</span></div>
       <div class="row">🏥 <span class="label">Name</span> <span class="value" id="info-name">—</span></div>
       <div class="row">📍 <span class="label">Address</span> <span class="value" id="info-address">—</span></div>
@@ -62,7 +62,7 @@
   </aside>
 
   <script>
-    const markers = [];
+    const markers = [{"lat":35.2126916,"lng":33.3763749,"name":"ÇINARLI ECZANESİ","address":"Güven Sok. 21 A Hamitköy (Ekin Adademir Yurtları arkası)","phone":"(0392) 225 23 60","time":"08:00 - 00:00"},{"lat":35.200344,"lng":33.3534627,"name":"DİLEK ECZANESİ","address":"Şht.Evcet Yusuf Cad. N0:37/A Kızılbaş Lefkoşa","phone":"(0392) 228 18 67","time":"08:00 - 00:00"},{"lat":35.201196,"lng":33.3287983,"name":"ÖZYOL ECZANESİ","address":"Şaziye Hacı Maltızlar Cad.No:2/ 4 Ortaköy Lefkoşa","phone":"(0392) 223 21 31","time":"08:00 - 00:00"},{"lat":35.3366282,"lng":33.3104671,"name":"GİRNE ECZANESİ","address":"Işil Sok. Bayramoğlu Apt.D/3 Girne","phone":"(0392) 815 14 47","time":"08:00 - 00:00"},{"lat":35.3420431,"lng":33.2829969,"name":"KARAOĞLANOĞLU ECZANESİ","address":"Karaoğlanoğlu Caddesi Özaltın Dükkanları No: 2, Girne (Zeytin yağı fabrikasını geçince solda, petshop yanı)","phone":"(0533) 875 39 93","time":"08:00 - 00:00"},{"lat":35.33761150000001,"lng":33.3110596,"name":"TÖREN 2 ECZANESİ","address":"Vakıflar Çarşısı A Blok No:1 Girne","phone":"(0392) 815 17 90","time":"08:00 - 00:00"},{"lat":35.2359893,"lng":33.75177230000001,"name":"BUĞÇE BAYRAM ECZANESİ","address":"Uluçam Sokak Döveç Elite Life Apt. 32 Dükkan No: 8, Sakarya Çocuk Dünyası ve Pizza Town yanı, eski Pakduş yolu üzeri, Gazimağusa","phone":"(0392) 365 25 25","time":"08:00 - 00:00"},{"lat":35.1304494,"lng":33.9269042,"name":"BAHAR ECZANESİ","address":"İsmet İnönü Bulvarı No: 45, Ateş Kuruyemişleri yanı, Gazimağusa","phone":"(0392) 365 51 26","time":"08:00 - 00:00"},{"lat":35.1991448,"lng":32.9930001,"name":"NİLGÜN ECZANESİ","address":"25 Ecevit Cad. Güzelyurt","phone":"(0392) 714 38 47","time":"08:00 - 00:00"},{"lat":35.1718266,"lng":32.9226532,"name":"SIDIKA UMAR ECZANESİ","address":"Menekşe Sok. No: 2/B, Gaziveren, Lefke","phone":"(0392) 723 79 97","time":"08:00 - 22:00"},{"lat":35.2834822,"lng":33.8924736,"name":"SELİN ECZANESİ","address":"Şht.Mustafa Orhan Cad.No:5 iskele","phone":"(0533) 884 86 59","time":"08:00 - 22:00"},{"lat":35.5284412,"lng":34.1807929,"name":"KARPAZIN ECZANESİ","address":"Şht. Mustafa H. Akdeniz Sokak No: 4, Yenierenköy","phone":"(0539) 112 38 02","time":"08:00 - 20:00"},{"lat":35.3801085,"lng":34.07139799999999,"name":"OLGUN KAHYAOĞLU ECZANESİ","address":"Ada Cad. Bafra No: 37 / E Mehmetçik - Karpaz","phone":"(0533) 849 99 46","time":"08:00 - 20:00"}];
     window.markers = markers;
 
     const pharmacySVG = `<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'>
@@ -120,10 +120,10 @@
     }
   </script>
 
-  <script src="config.js?v=1754869999911"></script>
+  <script src="config.js?v=1754956405344"></script>
   <script>
     const mapsScript=document.createElement('script');
-    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754869999911`;
+    mapsScript.src=`https://maps.googleapis.com/maps/api/js?key=${CONFIG.apiKey}&callback=initMap&cb=1754956405344`;
     mapsScript.async=true; mapsScript.defer=true;
     document.head.appendChild(mapsScript);
   </script>
